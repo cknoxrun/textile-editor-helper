@@ -31,7 +31,15 @@ Directions to get the helper up and running for your install:
 		<%= textile_editor_tag 'description', :description -%> 
 		
 		**just like writing a text area tag, same options**
-
+		
+		If you want to skip the generated textarea tag in the textile_editor_initialize method, pass in :skip_initialize => true 
+		in the options hash, like so:
+		
+		<%= textile_editor_tag 'description', :description, :skip_initialize => true -%> 
+		
+		This allows you to use the textarea tag in AJAX nested attribute solutions, where the tag is part of a form that is
+		added in a "Add Another X" link.
+		
 	3. at the end of your form put in the following code:
 
 		<%= textile_editor_initialize -%> **Important!**
