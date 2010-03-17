@@ -36,7 +36,7 @@ module ActionView
       #   #      #{@entry.body}
       #   #    </textarea>
       def textile_editor(object_name, method, options = {})        
-        editor_id         = options[:id] || '%s_%s' % [object_name, method]
+        editor_id         = options[:id] || '%s_%s' % [object_name.to_s.gsub(/[\[\]]+/, '_').sub(/_\Z/, ''), method]
         mode              = options.delete(:simple) ? 'simple' : 'extended'
         skip_initialize   = options.delete(:skip_initialize) || false
         (@textile_editor_ids ||= []) << [editor_id.to_s, mode.to_s] unless skip_initialize
