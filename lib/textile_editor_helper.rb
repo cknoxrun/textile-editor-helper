@@ -36,9 +36,10 @@ module ActionView
       #   #      #{@entry.body}
       #   #    </textarea>
       def textile_editor(object_name, method, options = {})        
-        editor_id = options[:id] || '%s_%s' % [object_name, method]
-        mode      = options.delete(:simple) ? 'simple' : 'extended'
-        (@textile_editor_ids ||= []) << [editor_id.to_s, mode.to_s]
+        editor_id         = options[:id] || '%s_%s' % [object_name, method]
+        mode              = options.delete(:simple) ? 'simple' : 'extended'
+        skip_initialize   = options.delete(:skip_initialize) || false
+        (@textile_editor_ids ||= []) << [editor_id.to_s, mode.to_s] unless skip_initialize
 
         InstanceTag.new(object_name, method, self, options.delete(:object)).to_text_area_tag(options)
       end
@@ -153,6 +154,7 @@ module ActionView
       # * <tt>:rows</tt> - Specify the number of rows in the textarea
       # * <tt>:cols</tt> - Specify the number of columns in the textarea
       # * <tt>:disabled</tt> - If set to true, the user will not be able to use this input.
+      # * <tt>:skip_initialize</tt> - If set to true, the text area ID is not automatically intialized via textile_editor_initialize 
       # * Any other key creates standard HTML attributes for the tag.
       #
       # ==== Examples
@@ -174,9 +176,11 @@ module ActionView
       #   textile_editor_tag 'comment', nil, :class => 'comment_input'
       #   # => <textarea class="comment_input" id="comment" name="comment"></textarea>
       def textile_editor_tag(name, content = nil, options = {})
-        editor_id = options[:id] || name
-        mode      = options.delete(:simple) ? 'simple' : 'extended'
-        (@textile_editor_ids ||= []) << [editor_id.to_s, mode.to_s]
+        editor_id           = options[:id] || name
+        mode                = options.delete(:simple) ? 'simple' : 'extended'
+        skip_initialize     = options.delete(:skip_initialize) || false
+        
+        (@textile_editor_ids ||= []) << [editor_id.to_s, mode.to_s] unless skip_initialize
         
         text_area_tag(name, content, options)
       end
